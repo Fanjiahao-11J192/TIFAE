@@ -1,0 +1,6 @@
+{
+    "data_root": "/data6/lrc/MSP-IMPROV",
+    "target_root": "/home/fjh/Multimodal_projects/MMIN/data/MSP/MSP-IMPROV_features_2021/target",
+    "total_cv": 12,
+    "feature_root": "/home/fjh/Multimodal_projects/MMIN/data/MSP/MSP-IMPROV_features_2021"
+}
