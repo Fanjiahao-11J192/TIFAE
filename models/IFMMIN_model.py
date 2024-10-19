@@ -17,7 +17,7 @@ from models.utt_fusion_model import UttFusionModel
 from models.utils.config import OptConfig
 from models.networks.shared import SharedEncoder
 #from models.MISA_model import MISAModel
-from models.utt_shared_model import UttSharedModel
+from models.pretrained_IFMMIN_model import UttSharedModel
 
 
 class IFMMINModel(BaseModel):

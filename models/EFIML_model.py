@@ -9,7 +9,7 @@ from models.networks.lstm import LSTMEncoder
 from models.networks.textcnn import TextCNN
 from models.networks.classifier import FcClassifier,Fusion
 from models.networks.autoencoder2 import ResidualAE
-from models.utt_fusion_model import UttFusionModel
+from models.pretrained_EMIFL_model import UttFusionModel
 from models.networks.Transformer.transformer import TransformerEncoder
 from .utils.config import OptConfig
 from torch import nn

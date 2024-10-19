@@ -11,7 +11,7 @@ from models.networks.classifier import FcClassifier, Fusion
 from models.networks.autoencoder_2 import ResidualAE
 # from models.networks.autoencoder import ResidualAE
 from models.utils.config import OptConfig
-from models.utt_self_supervise_model import UttSelfSuperviseModel
+from models.pretrained_CIFMMIN_model import UttSelfSuperviseModel
 
 
 
