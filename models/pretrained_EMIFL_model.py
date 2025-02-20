@@ -1,4 +1,5 @@
 import argparse
+import numpy as np
 import torch
 import os
 import json
@@ -9,7 +10,7 @@ from models.networks.lstm import LSTMEncoder
 from models.networks.textcnn import TextCNN
 from models.networks.classifier import FcClassifier
 from models.networks.Transformer.transformer import TransformerEncoder
-from models.utils.functions import CMD,DiffLoss
+from models.utils.functions import CMD,DiffLoss,KL
 from torch import nn
 from models.networks.SelfAttention import SelfAttn
 def str2bool(v):
@@ -54,7 +55,7 @@ class UttFusionModel(BaseModel):
         super().__init__(opt)
         # our expriment is on 10 fold setting, teacher is on 5 fold setting, the train set should match
         #self.loss_names = ['CE']
-        self.loss_names = ['CE','CMD']
+        self.loss_names = ['CE','KL']
         self.modality = opt.modality
         self.model_names = ['C']
         cls_layers = list(map(lambda x: int(x), opt.cls_layers.split(',')))
@@ -133,6 +134,7 @@ class UttFusionModel(BaseModel):
 
         self.loss_diff_func = DiffLoss()
         self.loss_cmd_func = CMD()
+        self.loss_kl_func = KL(reduction='mean')
         if self.isTrain:
             if self.opt.corpus_name != 'MOSI':
                 self.criterion_ce = torch.nn.CrossEntropyLoss()
@@ -256,8 +258,9 @@ class UttFusionModel(BaseModel):
     def backward(self):
         """Calculate the loss for back propagation"""
         self.loss_CE = self.criterion_ce(self.logits, self.label)
-        self.loss_CMD = self.get_cmd_loss()
-        loss = self.loss_CE + self.loss_CMD
+        # self.loss_CMD = self.get_cmd_loss()
+        self.loss_KL = self.get_kl_loss()
+        loss = self.loss_CE + 10* self.loss_KL
         loss.backward()
         for model in self.model_names:
             torch.nn.utils.clip_grad_norm_(getattr(self, 'net'+model).parameters(), 0.5)
@@ -307,3 +310,22 @@ class UttFusionModel(BaseModel):
         loss += self.loss_diff_func(private_t, private_v)
 
         return loss
+
+    def get_kl_loss(self, ):
+        A, V, L = self.A.permute(1, 2, 0), self.V.permute(1, 2, 0), self.L.permute(1, 2, 0)  # [batch_size, 80,seq_len]
+        common_length = np.min([A.shape[2], V.shape[2], L.shape[2]])
+        A = F.adaptive_max_pool1d(A, common_length)
+        V = F.adaptive_max_pool1d(V, common_length)
+        L = F.adaptive_max_pool1d(L, common_length)
+        A, V, L = A.permute(0, 2, 1), V.permute(0, 2, 1), L.permute(0, 2, 1)  # [batch_size, seq_len,80]
+
+        var_a, var_v, var_t = A.var(dim=-1), V.var(dim=-1), L.var(dim=-1)
+        a_, v_, l_ = A.mean(-1), V.mean(-1), L.mean(-1)
+
+        output_av = (self.loss_kl_func(a_, v_, var_a, var_v) + self.loss_kl_func(v_, a_, var_v, var_a)) / 2
+        output_at = (self.loss_kl_func(a_, l_, var_a, var_t) + self.loss_kl_func(l_, a_, var_t, var_a)) / 2
+        output_vt = (self.loss_kl_func(v_, l_, var_v, var_t) + self.loss_kl_func(l_, v_, var_t, var_v)) / 2
+
+        loss_all = (output_at + output_av + output_vt) / 3
+
+        return loss_all
