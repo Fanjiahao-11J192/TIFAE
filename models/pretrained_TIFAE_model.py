@@ -125,12 +125,12 @@ class UttFusionModel(BaseModel):
         self.model_names.append('V_Conv')
         self.netV_Conv = nn.Conv1d(opt.embd_size_v, opt.conv_dim_v, kernel_size=3, padding=0, bias=False)
 
-            # self.model_names.append('A_attn')
-            # self.netA_attn = SelfAttn(2*opt.conv_dim_a,2*opt.conv_dim_a,2*opt.conv_dim_a).to(self.device)
-            # self.model_names.append('V_attn')
-            # self.netV_attn = SelfAttn(2*opt.conv_dim_v,2*opt.conv_dim_v,2*opt.conv_dim_v).to(self.device)
-            # self.model_names.append('L_attn')
-            # self.netL_attn = SelfAttn(2*opt.conv_dim_l,2*opt.conv_dim_l,2*opt.conv_dim_l).to(self.device)
+        # self.model_names.append('A_attn')
+        # self.netA_attn = SelfAttn(2*opt.conv_dim_a,2*opt.conv_dim_a,2*opt.conv_dim_a).to(self.device)
+        # self.model_names.append('V_attn')
+        # self.netV_attn = SelfAttn(2*opt.conv_dim_v,2*opt.conv_dim_v,2*opt.conv_dim_v).to(self.device)
+        # self.model_names.append('L_attn')
+        # self.netL_attn = SelfAttn(2*opt.conv_dim_l,2*opt.conv_dim_l,2*opt.conv_dim_l).to(self.device)
 
         self.loss_diff_func = DiffLoss()
         self.loss_cmd_func = CMD()
