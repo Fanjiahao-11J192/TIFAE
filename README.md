@@ -1,7 +1,7 @@
-# EMIFL
+# TIFAE
 
-This repo implements the EMIFL for the following paper:
-"Enhanced Modality-Invariant Feature Learning for Multimodal Emotion Recognition with Missing Modalities" 
+This repo implements the TIFAE for the following paper:
+"Temporal Invariant Feature Combined with Arbitrary Enhancement for Missing Modality Emotion Recognition" 
 
 # Environment
 
@@ -16,38 +16,38 @@ First you should change the data folder path in ```data/config``` and preprocess
 
 The preprocess of feature was done handcrafted in several steps, we will make it a automatical running script in the next update. You can download the preprocessed feature to run the code.
 
-+ For Training EMIFL on IEMOCAP:
++ For Training TIFAE on IEMOCAP:
 
     First training a model fusion model with all audio, visual and lexical modality as the pretrained encoder.
 
     ```bash
-    bash scripts/CAP_pretrained_EMIFL.sh AVL [num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer]
+    bash scripts/CAP_pretrained_TIFAE.sh AVL [num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer]
     ```
 
     Then
 
     ```bash
-    bash scripts/CAP_EMIFL.sh [num_of_expr] [pretrained_num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer]
+    bash scripts/CAP_TIFAE.sh [num_of_expr] [pretrained_num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer]
     ```
 
-+ For Training EMIFL on MSP-IMPROV:
++ For Training TIFAE on MSP-IMPROV:
 
     ```bash
-    bash scripts/MSP_pretrained_EMIFL.sh AVL [num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer] 
+    bash scripts/MSP_pretrained_TIFAE.sh AVL [num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer] 
     ```
 
     ```bash
-    bash scripts/MSP_EMIFL.sh [num_of_expr] [pretrained_num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer]
+    bash scripts/MSP_TIFAE.sh [num_of_expr] [pretrained_num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer]
     ```
     
-+ For Training EMIFL on CMU-MOSI: 
++ For Training TIFAE on CMU-MOSI: 
 
     ```bash
-    bash scripts/MOSI_pretrained_EMIFL.sh AVL [num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer] 
+    bash scripts/MOSI_pretrained_TIFAE.sh AVL [num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer] 
     ```
 
     ```bash
-    bash scripts/MOSI_EMIFL.sh [num_of_expr] [pretrained_num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer]
+    bash scripts/MOSI_TIFAE.sh [num_of_expr] [pretrained_num_of_expr] [GPU_index] [Transformer_head] [Transformer_layer]
     ```
 
 
