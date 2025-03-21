@@ -8,7 +8,7 @@ transformer_layers=$5
 for i in `seq 1 1 10`;
 do
 
-cmd="python train_baseline.py --dataset_mode=multimodal --model=pretrained_EMIFL
+cmd="python train_baseline.py --dataset_mode=multimodal --model=pretrained_TIFAE
 --gpu_ids=$gpu --modality=$modality --corpus_name=MOSI
 --log_dir=./logs --checkpoints_dir=./checkpoints --print_freq=10 
 --A_type=acoustic --input_dim_a=74 --norm_method=trn --embd_size_a=128 --conv_dim_a=40 --embd_method_a=maxpool
@@ -19,7 +19,7 @@ cmd="python train_baseline.py --dataset_mode=multimodal --model=pretrained_EMIFL
 --output_dim=1 --cls_layers=128,128 --dropout_rate=0.3
 --niter=30 --niter_decay=10 --verbose --beta1=0.9
 --batch_size=64 --lr=2e-4 --run_idx=$run_idx
---name=MOSI_pretrained_EMIFL --suffix={modality}_run{run_idx} --has_test
+--name=MOSI_pretrained_TIFAE --suffix={modality}_run{run_idx} --has_test
 --cvNo=$i"
 
 
